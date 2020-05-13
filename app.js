@@ -12,31 +12,54 @@ const render = require("./lib/htmlRenderer");
 
 const allEmployees = [];
 
-console.log("Please build your team");
+// Prompt user for roles to enter 
+function employeeInformation() {
+  return inquirer.prompt([
+    {
+      type: "list",
+      message: "What type of employee would you like ti input",
+      name: "name",
+      choices: ["Manager", "Engineer", "Intern", "All done"],
+    },
+  ]).then(val => {
+    if (val.name === 'Manager') {
+      managerInformation();
+    } else if (val.name === 'Engineer') {
+      engineerInformation()
+    } else if (val.name === 'Intern') {
+       internInformation();
+    } else {
+     render(allEmployees);
+     console.log("all done")
+    }
+  });
+}; // end of function 
+
+employeeInformation();
 
 // Initial prompt to collect information on manager
 function managerInformation() {
-    return inquirer.prompt([
-      {
-        type: "input",
-        message: "what is your manager's name?",
-        name: "name"
-      },
-      {
-        type: "input",
-        message: "What is your manager's id",
-        name: "id",
-      },
-      {
-        type: "input",
-        message: "What is your manager's email?",
-        name: "email"
-      },
-      {
-        type: "input",
-        message: "What is your manager's office number",
-        name: "number",
-      },
+  return inquirer.prompt([
+    {
+      type: "input",
+      message: "what is your manager's name?",
+      name: "name"
+    },
+    {
+      type: "input",
+      message: "What is your manager's id",
+      name: "id",
+    },
+    {
+      type: "input",
+      message: "What is your manager's email?",
+      name: "email"
+    },
+    {
+      type: "input",
+      message: "What is your manager's office number",
+      name: "number",
+    },
   ]); // end of return 
 }; // end of function 
 
