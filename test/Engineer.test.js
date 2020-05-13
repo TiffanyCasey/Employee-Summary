@@ -1,4 +1,6 @@
-const Engineer = require("../lib/Engineer");
+// TODO: Write code to define and export the Manager class. HINT: This class should inherit from Employee.
+
+const Engineer = require("../lib/Employee");
 
 test("Can set GitHUb account via constructor", () => {
   const testValue = "GitHubUser";
