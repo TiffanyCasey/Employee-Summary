@@ -18,3 +18,4 @@ Node JS, JavaScript
 Video of app in action: https://drive.google.com/file/d/1pa03m28vmpBQ0suPltUCJemYr5gRCJ6L/view
 
 Output: 
+![Screen Shot 2020-05-14 at 12 17 58 PM](https://user-images.githubusercontent.com/60197994/81959117-fd1b7400-95dc-11ea-8abf-43a68964c23b.png)
