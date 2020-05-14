@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const allEmployees = [];
+const team = [];
 
 // Prompt user for roles to enter 
 function employeeInformation() {
@@ -27,14 +27,12 @@ function employeeInformation() {
     } else if (val.name === "Engineer") {
       engineerInformation()
     } else if (val.name === "Intern") {
-       internInformation();
+      internInformation();
     } else if (val.name === "Show Summary") {
-      makeHTML();
+      generateHTML(outputPath, render(team));
     };
   }); 
 }; // end of function 
-
-employeeInformation();
 
 // Prompt to collect information on manager and then go back to enter a new employee
 function managerInformation() {
@@ -59,7 +57,10 @@ function managerInformation() {
       message: "What is your manager's office number",
       name: "number",
     },
-  ]).then(function() {
+  ]).then(function(answer) {
+    let manager = new Manager(answer.name, answer.id, answer.email, answer.number)
+    team.push(manager);
+
     employeeInformation()
   })
 }; // end of function 
@@ -76,7 +77,7 @@ function engineerInformation() {
     {
       type: "input",
       message: "What is your engineer's ID",
-      name: "ID",
+      name: "id",
     },
     {
       type: "input",
@@ -88,7 +89,10 @@ function engineerInformation() {
       message: "What is your engineer's GitHub username",
       name: "GitHub",
     },
-  ]).then(function() {
+  ]).then(function(answer) {
+    let engineer = new Engineer(answer.name, answer.id, answer.email, answer.GitHub)
+    team.push(engineer);
+
     employeeInformation()
   })
 }; // end of function 
@@ -105,7 +109,7 @@ function internInformation() {
     {
       type: "input",
       message: "What is your intern's ID",
-      name: "ID",
+      name: "id",
     },
     {
       type: "input",
@@ -117,52 +121,24 @@ function internInformation() {
       message: "What is your intern's school",
       name: "school",
     },
-  ]).then(function() {
+  ]).then(function(answer) {
+    let intern = new Intern(answer.name, answer.id, answer.email, answer.school)
+    team.push(intern);
+
     employeeInformation()
   })
 }; // end of function 
 
+// write the answers to a new README file
+function generateHTML(fileName, data) {
+  fs.writeFile(fileName, data, "utf8", function (err) {
+    if (err) {
+      throw err;
+    }
+    console.log("You have successfully written your Employee Summary");
+  });
+};
 
-// // write the answers to a new README file
-// function makeHTML(fileName, data) {
-//   fs.writeFile(fileName, data, "utf8", function (err) {
-//     if (err) {
-//       throw err;
-//     }
-//     console.log("You have successfully written your employee summary");
-//   });
-// };
+// Calls function to begin prompt for roles to enter
+employeeInformation();
 
-// // write the answers to a new html 
-// async function init() {
-//   try {
-//     const answers = await askQuestions();
-//     makeHTML("employeesummary.html", generateMarkdown(answers));
-
-//     } catch (err) {
-//       console.log(err);
-//     }
-// };
-
-// init();
-// 
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
