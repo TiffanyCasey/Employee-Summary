@@ -14,30 +14,29 @@ const allEmployees = [];
 
 // Prompt user for roles to enter 
 function employeeInformation() {
-  return inquirer.prompt([
+   inquirer.prompt([
     {
       type: "list",
-      message: "What type of employee would you like ti input",
+      message: "What type of employee would you like to input",
       name: "name",
-      choices: ["Manager", "Engineer", "Intern", "All done"],
+      choices: ["Manager", "Engineer", "Intern", "Show Summary"],
     },
   ]).then(val => {
-    if (val.name === 'Manager') {
+    if (val.name === "Manager") {
       managerInformation();
-    } else if (val.name === 'Engineer') {
+    } else if (val.name === "Engineer") {
       engineerInformation()
-    } else if (val.name === 'Intern') {
+    } else if (val.name === "Intern") {
        internInformation();
-    } else {
-     render(allEmployees);
-     console.log("all done")
-    }
-  });
+    } else if (val.name === "Show Summary") {
+      makeHTML();
+    };
+  }); 
 }; // end of function 
 
 employeeInformation();
 
-// Initial prompt to collect information on manager
+// Prompt to collect information on manager and then go back to enter a new employee
 function managerInformation() {
   return inquirer.prompt([
     {
@@ -60,10 +59,13 @@ function managerInformation() {
       message: "What is your manager's office number",
       name: "number",
     },
-  ]); // end of return 
+  ]).then(function() {
+    employeeInformation()
+  })
 }; // end of function 
 
-// Collect information on the Engineer(s)
+
+// Prompt to collect information on engineer and then go back to enter a new employee
 function engineerInformation() {
   return inquirer.prompt([
     {
@@ -86,11 +88,13 @@ function engineerInformation() {
       message: "What is your engineer's GitHub username",
       name: "GitHub",
     },
-  ]); // end of return 
+  ]).then(function() {
+    employeeInformation()
+  })
 }; // end of function 
 
 
-// Collect information on the Intern(s)
+// Prompt to collect information on intern and then go back to enter a new employee
 function internInformation() {
   return inquirer.prompt([
     {
@@ -113,9 +117,34 @@ function internInformation() {
       message: "What is your intern's school",
       name: "school",
     },
-  ]); // end of return 
+  ]).then(function() {
+    employeeInformation()
+  })
 }; // end of function 
 
+
+// // write the answers to a new README file
+// function makeHTML(fileName, data) {
+//   fs.writeFile(fileName, data, "utf8", function (err) {
+//     if (err) {
+//       throw err;
+//     }
+//     console.log("You have successfully written your employee summary");
+//   });
+// };
+
+// // write the answers to a new html 
+// async function init() {
+//   try {
+//     const answers = await askQuestions();
+//     makeHTML("employeesummary.html", generateMarkdown(answers));
+
+//     } catch (err) {
+//       console.log(err);
+//     }
+// };
+
+// init();
 // 
 
 // After the user has input all employees desired, call the `render` function (required
